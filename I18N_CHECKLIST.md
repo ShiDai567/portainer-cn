@@ -2,18 +2,18 @@
 
 状态：`[ ]` 待处理，`[x]` 已完成（翻译及验证均完成），`[~]` 进行中，`[!]` 存在问题，`[-]` 已核实不适用。每一行是一个可统计的页面组任务；勾选前必须进一步逐页拆分并记录覆盖范围及测试。带条件的 CE/BE、资源类型和权限只说明源码存在，实际可用性待验证；未确认不存在的项目不标 N/A。
 
-当前资源：`translations/{en,zh-CN}/translation.json` 各 158 个字符串叶子；大部分业务页面仍硬编码。除下方明确记录的接入外，其他条目仍仅完成初步路径定位，待逐页盘点、翻译和验证。完成 0/46，进行中 4/46；真实环境未验收的页面组不勾选。
+当前资源：`translations/{en,zh-CN}/translation.json` 各 248 个字符串叶子；大部分业务页面仍硬编码。除下方明确记录的接入外，其他条目仍仅完成初步路径定位，待逐页盘点、翻译和验证。真实环境验收完成 0/46，代码接入和测试进度另见各条说明；进行中 5/46。真实环境未验收的页面组不勾选。
 
 ## 全局与登录
 - [~] 导航、侧栏、面包屑、页标题、用户菜单：`app/react/sidebar/`、`app/react/components/PageHeader/`、`app/portainer/views/main/`。
   - 已接入 `navigation.*` 共 78 个 key：`Sidebar.tsx`、`DockerSidebar.tsx`、`KubernetesSidebar/{KubernetesSidebar,KubectlShellButton}.tsx`、`AzureSidebar/AzureSidebar.tsx`、`EdgeComputeSidebar.tsx`、`AppDeliverySidebar.tsx`、`SettingsSidebar.tsx`、`EnvironmentSidebar.tsx`、`items/DashboardLink.tsx`。包含条件菜单，保留原权限和特性条件，不代表 CE 全部可达。
-  - 设置、Azure、kubectl 原有导航测试和设置导航即时切换测试已接入；剩余页脚、Header 品牌说明、升级弹窗、面包屑、用户菜单及运行验收待做。
-  - `PageHeader/UserMenu.tsx` 已接入 `header.userMenu.*` 4 个 key，覆盖菜单按钮标签、账户和退出登录；`Breadcrumbs.tsx` 仅渲染调用方提供的动态标签，没有可安全翻译的固定文案。剩余主题选项等其他 Header 文案待查。
+  - 设置、Azure、kubectl 原有导航测试和设置导航即时切换测试已接入；剩余范围须逐项覆盖：`app/react/sidebar/Footer/`（版本提示、版本信息弹窗、CE/BE 版别文案）、`app/react/sidebar/UpgradeBEBanner/`（升级入口、许可申请/上传/校验/升级各弹窗）、`PageHeader/AskAILink.tsx`、`PageHeader/PageHeader.tsx`（刷新提示）、`PageHeader/SidebarToggleButton.tsx`、Header 品牌说明、面包屑调用方及运行验收。外部 HubSpot 表单内容按第三方内容单独核验。
+  - `PageHeader/UserMenu.tsx` 已接入 `header.userMenu.*` 4 个 key；本轮补充主题选项、通知菜单/相对时间及文档入口文案，通知内容原始标题/详情保留。`Breadcrumbs.tsx` 仅渲染调用方提供的动态标签，没有可安全翻译的固定文案，仍需检查各调用方传入的标签。
 - [~] 登录、内部认证、注销：`app/react/auth/`、`app/portainer/views/auth/`、`app/portainer/views/logout/`，路由 `portainer.auth/logout`。
   - `auth.html` 和 `authController.js` 已接入 `auth.*` 共 21 个 key；包括 OAuth provider 插值、占位符、密码显示提示、进度和内部错误。内部错误随语言切换更新，外部错误和登出原因保留原文。
   - 控制器返回地址回归、内部错误切换/监听清理/外部诊断保留，以及 AngularJS 模板插值和语言选择器测试已补充。剩余注销及上游错误来源、真实内部/OAuth 登录流程回归待做。
 - [~] 初始化管理员、Edge 和许可：`app/react/portainer/init/`、`app/portainer/views/init/`，路由 `portainer.init.*`。
-  - `InitAdminView/initAdmin.html` 管理员创建及本地/S3 备份恢复模板已接入 `init.admin.*` 27 个 key；`InitEdgeView.tsx` 已接入 `init.edge.*` 14 个 key。许可初始化页面及错误提示、实际初始化流程验收仍待完成。
+  - `InitAdminView/initAdmin.html` 管理员创建及本地/S3 备份恢复模板已接入；`InitEdgeView.tsx` 已接入 `init.edge.*` 14 个 key。本轮补充管理员初始化错误/结果/超时提示、S3/文件选项及 setup token FAQ；许可初始化入口与实际初始化流程验收仍待核对。
 - [ ] 首页环境概览与空状态：`app/react/portainer/HomeView/`，路由 `portainer.home`。
 - [ ] 通知中心、Toast、后端错误：`app/react/portainer/notifications/`、`app/portainer/services/notifications.ts`、`pkg/libhttp/error/`。
 - [ ] 全局按钮、表格、搜索、筛选、分页、加载/空状态：`app/react/components/{buttons,datatables,PaginationControls,ViewLoading}/`。
@@ -50,11 +50,12 @@
 
 ## 身份、权限与设置
 - [ ] 用户、团队、角色、资源访问控制：`app/react/portainer/{users,access-control}/`、`app/portainer/rbac/`；角色功能按版本核实。
-- [ ] 账户、访问令牌、Git 凭据和 Helm 仓库：`app/react/portainer/account/`、`app/portainer/views/account/`。
+- [~] 账户、访问令牌、Git 凭据和 Helm 仓库：`app/react/portainer/account/`、`app/portainer/views/account/`、`app/portainer/components/theme/`。
+  - 已接入账户标题/面包屑、密码表单与内部通知/确认弹窗、主题选择及通知、应用缓存设置、访问令牌列表/创建/验证/展示/删除、Helm 仓库列表/删除文案。Git 凭据、共享密码提示、Helm 仓库创建/编辑（`helm-repositories/CreateHelmRepositoryView/`、`helm-repositories/components/HelmRepositoryForm.tsx`）等仍待逐项清查；账户路由由 `app/portainer/__module.js` 注册，页面组尚未完成运行验收。
 - [ ] 常规、身份验证、LDAP、OAuth、SSO 与安全设置：`app/react/portainer/settings/`、`app/portainer/settings/`、`app/portainer/oauth/`。
 - [ ] Edge、云、备份、SSL、系统信息、许可证和更新提示：`app/react/portainer/{settings,licenses,system}/`、`app/portainer/license-management/`；各子功能需核验入口。
 - [ ] 仓库列表、添加、详情、仓库内容和环境访问：`app/react/portainer/registries/`、`app/portainer/registry-management/`。
-- [ ] 认证日志、活动审计、通知：`app/react/portainer/logs/`、`app/portainer/user-activity/`；权限与版本条件待核验。
+- [ ] 认证日志、活动审计、通知：`app/portainer/user-activity/`（认证日志及 AngularJS 注册）、`app/react/portainer/notifications/`（通知中心 React 视图）；权限与版本条件待核验。
 
 ## Edge、Azure 与交付
 - [ ] Edge 设备及候选设备、连接状态：`app/react/edge/edge-devices/`、`app/react/edge/components/`。

@@ -2,6 +2,13 @@
 
 ## 2026-11-11
 
+- 模块：Header 通知/主题、管理员初始化提示和账户设置、访问令牌、Helm 仓库列表。
+- 内容：按文件并行接入 React/AngularJS 固定文案、访问令牌 Yup 校验、通知相对时间和 Helm 删除复数；保留用户数据、原始诊断、路由和 API 行为。两个测试入口补充 i18next 初始化，并增加英中文案复数运行断言。
+- 资源：中英文各新增 90 个 key，累计各 248 个字符串叶子；恢复选项使用独立 `init.admin.uploadBackupOption`，保留原有上传备份说明；既有访问令牌说明译文未覆盖。初步清单 0/46 完成、5/46 进行中。
+- 验证：7 个相关测试文件 267 项通过，新加复数测试单独 9 项通过；`corepack pnpm typecheck`、Prettier、资源 key/插值/标签一致性、`git diff --check` 通过；改动文件 ESLint 0 errors、Helm 列表 2 条原有警告。`corepack pnpm build` 在 Webpack 编译阶段以 exit 137 被系统终止；浏览器/实际部署未验收。
+
+## 2026-11-11
+
 - 模块：Header 用户菜单与初始化管理员/Edge 页面。
 - 内容：用户菜单及管理员创建、本地/S3 备份恢复、Edge 首次配置接入 i18next；AngularJS 模板复用 `portainerTranslate`。核查通用面包屑组件仅消费动态标签，无固定文案可翻译。
 - 文件：`app/react/components/PageHeader/UserMenu.tsx`、`app/react/portainer/init/InitEdgeView/InitEdgeView.tsx`、`app/portainer/views/init/admin/initAdmin.html`、`translations/en/translation.json`、`translations/zh-CN/translation.json`、`I18N_CHECKLIST.md`、`I18N_PROGRESS.md`、`I18N_CHANGELOG.md`。
