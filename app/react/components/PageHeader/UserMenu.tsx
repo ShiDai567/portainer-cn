@@ -7,6 +7,7 @@ import {
 import { UISrefProps, useSref } from '@uirouter/react';
 import clsx from 'clsx';
 import { UserIcon, ChevronDown } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { queryClient } from '@/react-tools/react-query';
 import { AutomationTestingProps } from '@/types';
@@ -17,6 +18,7 @@ import { ThemeSelector } from './UserMenuThemeSelector';
 
 export function UserMenu() {
   const { user } = useCurrentUser();
+  const { t } = useTranslation();
 
   return (
     <Menu>
@@ -26,7 +28,9 @@ export function UserMenu() {
           styles.menuButton
         )}
         data-cy="userMenu-button"
-        aria-label="User menu toggle"
+        aria-label={t('header.userMenu.toggle', {
+          defaultValue: 'User menu toggle',
+        })}
       >
         <div
           className={clsx(
@@ -44,18 +48,20 @@ export function UserMenu() {
 
       <MenuList
         className={styles.menuList}
-        aria-label="User Menu"
+        aria-label={t('header.userMenu.label', { defaultValue: 'User Menu' })}
         data-cy="userMenu"
       >
         <MenuLink
           to="portainer.account"
-          label="My account"
+          label={t('header.userMenu.myAccount', {
+            defaultValue: 'My account',
+          })}
           data-cy="userMenu-myAccount"
         />
 
         <MenuLink
           to="portainer.logout"
-          label="Log out"
+          label={t('header.userMenu.logOut', { defaultValue: 'Log out' })}
           data-cy="userMenu-logOut"
         />
 

@@ -2,6 +2,14 @@
 
 ## 2026-11-11
 
+- 模块：Header 用户菜单与初始化管理员/Edge 页面。
+- 内容：用户菜单及管理员创建、本地/S3 备份恢复、Edge 首次配置接入 i18next；AngularJS 模板复用 `portainerTranslate`。核查通用面包屑组件仅消费动态标签，无固定文案可翻译。
+- 文件：`app/react/components/PageHeader/UserMenu.tsx`、`app/react/portainer/init/InitEdgeView/InitEdgeView.tsx`、`app/portainer/views/init/admin/initAdmin.html`、`translations/en/translation.json`、`translations/zh-CN/translation.json`、`I18N_CHECKLIST.md`、`I18N_PROGRESS.md`、`I18N_CHANGELOG.md`。
+- 新增翻译：中英文各 48 条；真实验收完成页面组仍为 0，进行中 4/46。
+- 测试：待执行。
+
+## 2026-11-11
+
 ### 首批导航、登录和语言基础设施
 
 - 10 个子 agent 按文件并行实施，统一使用 i18next key，保留英文资源及组件英文默认值。

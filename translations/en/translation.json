@@ -109,6 +109,66 @@
       "updateRollback": "Update & Rollback"
     }
   },
+  "header": {
+    "userMenu": {
+      "toggle": "User menu toggle",
+      "label": "User Menu",
+      "myAccount": "My account",
+      "logOut": "Log out"
+    }
+  },
+  "init": {
+    "edge": {
+      "title": "Set up Edge Compute",
+      "description": "Edge Compute lets Portainer manage environments that it cannot reach directly — remote devices, environments behind NAT or a firewall, or sites with intermittent connectivity.",
+      "benefits": {
+        "secureTunnel": "Onboard edge agents over a secure reverse tunnel, with no inbound ports to open on the remote side.",
+        "deploy": "Deploy stacks and jobs to many edge environments from a single Portainer instance."
+      },
+      "enableFeatures": "Enable Edge Compute features",
+      "urlHelp": "This is the URL that edge agents will use to reach this Portainer instance. It is prefilled from your browser — confirm it is reachable from where your agents run. You can change it later in Settings > Edge Compute.",
+      "testConnectivity": "Test connectivity",
+      "waitingRoomHelp": "When enabled, new edge agents wait for manual approval in Edge Compute > Waiting Room before they are associated. When disabled, agents are automatically trusted on first connect.",
+      "saving": "Saving...",
+      "enableAndContinue": "Enable and continue",
+      "continue": "Continue",
+      "skip": "Skip",
+      "successTitle": "Success",
+      "successMessage": "Edge Compute enabled"
+    },
+    "admin": {
+      "newPortainerInstallation": "New Portainer installation",
+      "createInitialAdministrator": "Please create the initial administrator user.",
+      "username": "Username",
+      "usernamePlaceholder": "e.g. admin",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "setupToken": "Setup token",
+      "findSetupTokenInLogs": "Find this token in the Portainer server logs",
+      "passwordMinimumLength": "The password must be at least {{length}} characters long.",
+      "createUser": "Create user",
+      "creatingUser": "Creating user...",
+      "restorePortainerFromBackup": "Restore Portainer from backup",
+      "restoreBackupDescription": "This will restore the Portainer metadata which contains information about the environments, stacks and applications, as well as the configured users.",
+      "uploadBackupFile": "You can upload a backup file from your computer.",
+      "selectFile": "Select file",
+      "backupPasswordTooltip": "If the backup is password protected, provide the password in order to extract the backup file, otherwise this field can be left empty.",
+      "accessKeyId": "Access key ID",
+      "secretAccessKey": "Secret access key",
+      "region": "Region",
+      "defaultRegionPlaceholder": "default region is us-east-1 if left empty",
+      "bucketName": "Bucket name",
+      "s3CompatibleHost": "S3 Compatible Host",
+      "s3HostnameTooltip": "Hostname of a S3 service",
+      "awsS3Placeholder": "leave empty for AWS S3",
+      "filename": "Filename",
+      "confirmRestoreBackup": "You are about to restore Portainer from this backup.",
+      "loginAfterRestore": "After restoring has completed, please log in as a user that was known by the Portainer that was restored.",
+      "findSetupTokenInLogsWithDocker": "Find this token in the Portainer server logs (docker logs <container>).",
+      "restorePortainer": "Restore Portainer",
+      "restoringPortainer": "Restoring Portainer..."
+    }
+  },
   "reactExample": {
     "registries": {
       "link": "Registries <strong>Link</strong>",

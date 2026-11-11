@@ -109,6 +109,66 @@
       "updateRollback": "更新与回滚"
     }
   },
+  "header": {
+    "userMenu": {
+      "toggle": "用户菜单切换",
+      "label": "用户菜单",
+      "myAccount": "我的账户",
+      "logOut": "退出登录"
+    }
+  },
+  "init": {
+    "edge": {
+      "title": "设置 Edge 计算",
+      "description": "Edge 计算让 Portainer 能够管理无法直接访问的环境，例如远程设备、位于 NAT 或防火墙之后的环境，以及连接不稳定的站点。",
+      "benefits": {
+        "secureTunnel": "通过安全的反向隧道接入 Edge agent，无需在远端开放入站端口。",
+        "deploy": "通过一个 Portainer 实例向多个 Edge 环境部署堆栈和作业。"
+      },
+      "enableFeatures": "启用 Edge 计算功能",
+      "urlHelp": "Edge agent 将通过此 URL 连接到当前 Portainer 实例。该地址根据当前浏览器自动填充，请确认 agent 所在位置可以访问。之后可在“设置 > Edge 计算”中修改。",
+      "testConnectivity": "测试连接",
+      "waitingRoomHelp": "启用后，新的 Edge agent 需要先在“Edge 计算 > 候接区”中经人工批准，才能完成关联。关闭后，agent 首次连接时将自动受信任。",
+      "saving": "正在保存...",
+      "enableAndContinue": "启用并继续",
+      "continue": "继续",
+      "skip": "跳过",
+      "successTitle": "成功",
+      "successMessage": "Edge 计算已启用"
+    },
+    "admin": {
+      "newPortainerInstallation": "全新安装 Portainer",
+      "createInitialAdministrator": "请创建初始管理员用户。",
+      "username": "用户名",
+      "usernamePlaceholder": "例如：admin",
+      "password": "密码",
+      "confirmPassword": "确认密码",
+      "setupToken": "设置令牌",
+      "findSetupTokenInLogs": "可在 Portainer 服务端日志中找到此令牌",
+      "passwordMinimumLength": "密码长度至少为 {{length}} 个字符。",
+      "createUser": "创建用户",
+      "creatingUser": "正在创建用户...",
+      "restorePortainerFromBackup": "从备份恢复 Portainer",
+      "restoreBackupDescription": "这将恢复 Portainer 元数据，其中包含环境、堆栈和应用的信息，以及已配置的用户。",
+      "uploadBackupFile": "您可以从计算机上传备份文件。",
+      "selectFile": "选择文件",
+      "backupPasswordTooltip": "如果备份受密码保护，请提供密码以解压备份文件；否则此字段可留空。",
+      "accessKeyId": "访问密钥 ID",
+      "secretAccessKey": "访问密钥",
+      "region": "区域",
+      "defaultRegionPlaceholder": "留空时默认使用 us-east-1 区域",
+      "bucketName": "存储桶名称",
+      "s3CompatibleHost": "兼容 S3 的主机",
+      "s3HostnameTooltip": "S3 服务的主机名",
+      "awsS3Placeholder": "使用 AWS S3 时留空",
+      "filename": "文件名",
+      "confirmRestoreBackup": "您即将通过此备份恢复 Portainer。",
+      "loginAfterRestore": "恢复完成后，请使用已存在于恢复后 Portainer 中的用户登录。",
+      "findSetupTokenInLogsWithDocker": "可在 Portainer 服务端日志中找到此令牌（docker logs <container>）。",
+      "restorePortainer": "恢复 Portainer",
+      "restoringPortainer": "正在恢复 Portainer..."
+    }
+  },
   "reactExample": {
     "registries": {
       "link": "镜像仓库 <strong>链接</strong>",

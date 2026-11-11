@@ -2,6 +2,7 @@ import { Formik, Form } from 'formik';
 import { Laptop, Network } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from '@uirouter/react';
+import { useTranslation } from 'react-i18next';
 import { boolean, object, SchemaOf, string } from 'yup';
 
 import {
@@ -31,6 +32,7 @@ interface FormValues {
 }
 
 export function InitEdgeView() {
+  const { t } = useTranslation();
   const router = useRouter();
   const updateSettingsMutation = useUpdateSettingsMutation();
   const settingsQuery = useSettings();
@@ -50,22 +52,32 @@ export function InitEdgeView() {
       <div className="container">
         <div className="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1">
           <Widget>
-            <WidgetTitle icon={Laptop} title="Set up Edge Compute" />
+            <WidgetTitle
+              icon={Laptop}
+              title={t('init.edge.title', {
+                defaultValue: 'Set up Edge Compute',
+              })}
+            />
 
             <WidgetBody loading={settingsQuery.isLoading}>
               <p className="text-muted">
-                Edge Compute lets Portainer manage environments that it cannot
-                reach directly — remote devices, environments behind NAT or a
-                firewall, or sites with intermittent connectivity.
+                {t('init.edge.description', {
+                  defaultValue:
+                    'Edge Compute lets Portainer manage environments that it cannot reach directly — remote devices, environments behind NAT or a firewall, or sites with intermittent connectivity.',
+                })}
               </p>
               <ul className="text-muted ml-4 list-disc">
                 <li>
-                  Onboard edge agents over a secure reverse tunnel, with no
-                  inbound ports to open on the remote side.
+                  {t('init.edge.benefits.secureTunnel', {
+                    defaultValue:
+                      'Onboard edge agents over a secure reverse tunnel, with no inbound ports to open on the remote side.',
+                  })}
                 </li>
                 <li>
-                  Deploy stacks and jobs to many edge environments from a single
-                  Portainer instance.
+                  {t('init.edge.benefits.deploy', {
+                    defaultValue:
+                      'Deploy stacks and jobs to many edge environments from a single Portainer instance.',
+                  })}
                 </li>
               </ul>
 
@@ -79,7 +91,9 @@ export function InitEdgeView() {
                   <Form className="form-horizontal mt-4" noValidate>
                     <FormControl
                       inputId="edge_enable"
-                      label="Enable Edge Compute features"
+                      label={t('init.edge.enableFeatures', {
+                        defaultValue: 'Enable Edge Compute features',
+                      })}
                       size="small"
                       errors={errors.EnableEdgeComputeFeatures}
                     >
@@ -98,11 +112,10 @@ export function InitEdgeView() {
                     {values.EnableEdgeComputeFeatures && (
                       <>
                         <TextTip color="blue" className="mb-2">
-                          This is the URL that edge agents will use to reach
-                          this Portainer instance. It is prefilled from your
-                          browser — confirm it is reachable from where your
-                          agents run. You can change it later in Settings &gt;
-                          Edge Compute.
+                          {t('init.edge.urlHelp', {
+                            defaultValue:
+                              'This is the URL that edge agents will use to reach this Portainer instance. It is prefilled from your browser — confirm it is reachable from where your agents run. You can change it later in Settings > Edge Compute.',
+                          })}
                         </TextTip>
 
                         <PortainerUrlField
@@ -119,7 +132,9 @@ export function InitEdgeView() {
                               data-cy="init-edge-test-connectivity-button"
                               className="!ml-0"
                             >
-                              Test connectivity
+                              {t('init.edge.testConnectivity', {
+                                defaultValue: 'Test connectivity',
+                              })}
                             </Button>
                           </div>
                         </div>
@@ -134,10 +149,10 @@ export function InitEdgeView() {
                         <EnabledWaitingRoomSwitch />
 
                         <TextTip color="blue" className="mb-2">
-                          When enabled, new edge agents wait for manual approval
-                          in Edge Compute &gt; Waiting Room before they are
-                          associated. When disabled, agents are automatically
-                          trusted on first connect.
+                          {t('init.edge.waitingRoomHelp', {
+                            defaultValue:
+                              'When enabled, new edge agents wait for manual approval in Edge Compute > Waiting Room before they are associated. When disabled, agents are automatically trusted on first connect.',
+                          })}
                         </TextTip>
                       </>
                     )}
@@ -148,11 +163,17 @@ export function InitEdgeView() {
                           disabled={!isValid}
                           data-cy="init-edge-submit-button"
                           isLoading={updateSettingsMutation.isLoading}
-                          loadingText="Saving..."
+                          loadingText={t('init.edge.saving', {
+                            defaultValue: 'Saving...',
+                          })}
                         >
                           {values.EnableEdgeComputeFeatures
-                            ? 'Enable and continue'
-                            : 'Continue'}
+                            ? t('init.edge.enableAndContinue', {
+                                defaultValue: 'Enable and continue',
+                              })
+                            : t('init.edge.continue', {
+                                defaultValue: 'Continue',
+                              })}
                         </LoadingButton>
 
                         <Button
@@ -161,7 +182,7 @@ export function InitEdgeView() {
                           onClick={goToWizard}
                           data-cy="init-edge-skip-button"
                         >
-                          Skip
+                          {t('init.edge.skip', { defaultValue: 'Skip' })}
                         </Button>
                       </div>
                     </div>
@@ -193,7 +214,12 @@ export function InitEdgeView() {
       },
       {
         onSuccess() {
-          notifySuccess('Success', 'Edge Compute enabled');
+          notifySuccess(
+            t('init.edge.successTitle', { defaultValue: 'Success' }),
+            t('init.edge.successMessage', {
+              defaultValue: 'Edge Compute enabled',
+            })
+          );
           goToWizard();
         },
       }

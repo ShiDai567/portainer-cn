@@ -1,10 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import { I18nextProvider } from 'react-i18next';
 import userEvent from '@testing-library/user-event';
 import { vi } from 'vitest';
 
 import { withTestQueryProvider } from '@/react/test-utils/withTestQuery';
 import { withTestRouter } from '@/react/test-utils/withRouter';
 import { buildDefaultValue as buildUrlDefaultValue } from '@/react/portainer/common/PortainerUrlField';
+import i18n from '@/setup-tests/i18n';
 
 import { InitEdgeView } from './InitEdgeView';
 
@@ -23,7 +25,11 @@ vi.mock('@/react/portainer/settings/queries/useSettings', () => ({
 
 function renderComponent() {
   const Wrapped = withTestQueryProvider(withTestRouter(InitEdgeView));
-  return render(<Wrapped />);
+  return render(
+    <I18nextProvider i18n={i18n}>
+      <Wrapped />
+    </I18nextProvider>
+  );
 }
 
 describe('InitEdgeView', () => {
