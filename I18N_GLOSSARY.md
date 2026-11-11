@@ -29,3 +29,11 @@
 | Environment Group | 环境组 | 环境的分组，不等同团队 |
 | Access Token | 访问令牌 | API 身份凭据，内容本身不翻译 |
 | Secret | 密钥 | 敏感配置资源；密钥值不翻译 |
+| ConfigMap | 配置映射 | Kubernetes 配置资源，命令和资源标识保留 ConfigMap |
+| Service Account | 服务账户 | Kubernetes ServiceAccount |
+| Cluster Role | 集群角色 | Kubernetes ClusterRole |
+| Cron Job | 定时任务 | Kubernetes CronJob |
+| Edge Job | Edge 作业 | Edge 调度作业，与 Kubernetes Job 区分 |
+| Waiting Room | 候接区 | 待接入的 Edge 设备 |
+| App Delivery | 应用交付 | GitOps/工作流导航分组 |
+| kubectl shell | kubectl 终端 | kubectl 命令名保留原文 |

@@ -2,11 +2,15 @@
 
 状态：`[ ]` 待处理，`[x]` 已完成（翻译及验证均完成），`[~]` 进行中，`[!]` 存在问题，`[-]` 已核实不适用。每一行是一个可统计的页面组任务；勾选前必须进一步逐页拆分并记录覆盖范围及测试。带条件的 CE/BE、资源类型和权限只说明源码存在，实际可用性待验证；未确认不存在的项目不标 N/A。
 
-资源基线：仅 `translations/en/translation.json`，没有中文资源；绝大部分待核查文本硬编码。下列所有条目的已完成内容均为“仅完成初步路径定位”，剩余内容均为“逐页、弹窗、动态提示、校验及条件状态盘点、翻译和验证”，测试结果均为“未运行”。实际实施时在对应条目下补记资源 key、具体页面、已做/剩余项和测试命令结果。
+当前资源：`translations/{en,zh-CN}/translation.json` 各 110 个字符串叶子；大部分业务页面仍硬编码。除下方明确记录的首批接入外，其他条目仍仅完成初步路径定位，待逐页盘点、翻译和验证。完成 0/46，进行中 3/46；真实环境未验收的页面组不勾选。
 
 ## 全局与登录
-- [ ] 导航、侧栏、面包屑、页标题、用户菜单：`app/react/sidebar/`、`app/react/components/PageHeader/`、`app/portainer/views/main/`。
-- [ ] 登录、内部认证、注销：`app/react/auth/`、`app/portainer/views/auth/`、`app/portainer/views/logout/`，路由 `portainer.auth/logout`。
+- [~] 导航、侧栏、面包屑、页标题、用户菜单：`app/react/sidebar/`、`app/react/components/PageHeader/`、`app/portainer/views/main/`。
+  - 已接入 `navigation.*` 共 78 个 key：`Sidebar.tsx`、`DockerSidebar.tsx`、`KubernetesSidebar/{KubernetesSidebar,KubectlShellButton}.tsx`、`AzureSidebar/AzureSidebar.tsx`、`EdgeComputeSidebar.tsx`、`AppDeliverySidebar.tsx`、`SettingsSidebar.tsx`、`EnvironmentSidebar.tsx`、`items/DashboardLink.tsx`。包含条件菜单，保留原权限和特性条件，不代表 CE 全部可达。
+  - 设置、Azure、kubectl 原有导航测试和设置导航即时切换测试已接入；剩余页脚、Header 品牌说明、升级弹窗、面包屑、用户菜单及运行验收待做。
+- [~] 登录、内部认证、注销：`app/react/auth/`、`app/portainer/views/auth/`、`app/portainer/views/logout/`，路由 `portainer.auth/logout`。
+  - `auth.html` 和 `authController.js` 已接入 `auth.*` 共 21 个 key；包括 OAuth provider 插值、占位符、密码显示提示、进度和内部错误。内部错误随语言切换更新，外部错误和登出原因保留原文。
+  - 控制器返回地址回归、内部错误切换/监听清理/外部诊断保留，以及 AngularJS 模板插值和语言选择器测试已补充。剩余注销及上游错误来源、真实内部/OAuth 登录流程回归待做。
 - [ ] 初始化管理员、Edge 和许可：`app/react/portainer/init/`、`app/portainer/views/init/`，路由 `portainer.init.*`。
 - [ ] 首页环境概览与空状态：`app/react/portainer/HomeView/`，路由 `portainer.home`。
 - [ ] 通知中心、Toast、后端错误：`app/react/portainer/notifications/`、`app/portainer/services/notifications.ts`、`pkg/libhttp/error/`。
@@ -60,6 +64,8 @@
 ## 横向覆盖
 - [ ] 各模块动态状态、插值、复数、HTML、链接和权限条件；从上述具体页面追踪。
 - [ ] 第三方控件、日期时间、编辑器、终端及表单校验：`package.json`、`app/react/components/`；逐依赖核实语言配置和原文边界。
-- [ ] 语言选择、资源加载、持久化、英文回退及 AngularJS/React 切换：`app/i18n.ts`、`translations/`、`webpack/webpack.common.js`。
+- [~] 语言选择、资源加载、持久化、英文回退及 AngularJS/React 切换：`app/i18n.ts`、`translations/`、`webpack/webpack.common.js`。
+  - 共享 i18next 同步加载打包资源，浏览器检测、`i18nextLng` 持久化、禁用存储容错、英文回退、HTML `lang`；登录页 AngularJS 选择器和展开侧栏 React 选择器；`app/portainer/components/i18n.js` 提供 stateful filter 和 digest 同步。
+  - 测试入口：`app/i18n.test.ts`、`app/i18n-resources.test.ts`、`app/portainer/components/i18n.test.js`、`app/react/components/LanguageSelector.test.tsx`。资源 key、插值和标签一致性已验证；剩余真实部署、子路径、浏览器持久化与混合页面交互验收待做。
 - [ ] 路由注册逐项与嵌套页面盘点、缺漏补录：注册文件清单见 `I18N_PLAN.md`；对隐含入口和模块条件进行核对。
 - [ ] 全页面、构建、浏览器兼容性与 Docker/Kubernetes 运行回归；记录环境和结果。

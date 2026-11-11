@@ -7,6 +7,7 @@ import {
   FileText,
   Bell,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { usePublicSettings } from '@/react/portainer/settings/queries';
 import { isBE } from '@/react/portainer/feature-flags/feature-flags.service';
@@ -26,6 +27,7 @@ export function SettingsSidebar({
   isAdmin,
   isTeamLeader = false,
 }: Props) {
+  const { t } = useTranslation();
   const teamSyncQuery = usePublicSettings<boolean>({
     select: (settings) => settings.TeamSync,
   });
@@ -35,10 +37,16 @@ export function SettingsSidebar({
   const showUsersSection = !window.ddExtension && isPureAdminOrTeamLeader;
 
   return (
-    <SidebarSection title="Administration">
+    <SidebarSection
+      title={t('navigation.settings.administration', {
+        defaultValue: 'Administration',
+      })}
+    >
       {showUsersSection && (
         <SidebarParent
-          label="User-related"
+          label={t('navigation.settings.userRelated', {
+            defaultValue: 'User-related',
+          })}
           icon={Users}
           to="portainer.users"
           pathOptions={{ includePaths: ['portainer.teams', 'portainer.roles'] }}
@@ -47,13 +55,13 @@ export function SettingsSidebar({
         >
           <SidebarItem
             to="portainer.users"
-            label="Users"
+            label={t('navigation.settings.users', { defaultValue: 'Users' })}
             isSubMenu
             data-cy="portainerSidebar-users"
           />
           <SidebarItem
             to="portainer.teams"
-            label="Teams"
+            label={t('navigation.settings.teams', { defaultValue: 'Teams' })}
             isSubMenu
             data-cy="portainerSidebar-teams"
           />
@@ -61,7 +69,7 @@ export function SettingsSidebar({
           {isPureAdmin && (
             <SidebarItem
               to="portainer.roles"
-              label="Roles"
+              label={t('navigation.settings.roles', { defaultValue: 'Roles' })}
               isSubMenu
               data-cy="portainerSidebar-roles"
             />
@@ -71,7 +79,9 @@ export function SettingsSidebar({
       {isPureAdmin && (
         <>
           <SidebarParent
-            label="Environment-related"
+            label={t('navigation.settings.environmentRelated', {
+              defaultValue: 'Environment-related',
+            })}
             icon={HardDrive}
             to="portainer.endpoints"
             pathOptions={{
@@ -85,7 +95,9 @@ export function SettingsSidebar({
             listId="portainer-environments"
           >
             <SidebarItem
-              label="Environments"
+              label={t('navigation.settings.environments', {
+                defaultValue: 'Environments',
+              })}
               to="portainer.endpoints"
               ignorePaths={['portainer.endpoints.updateSchedules']}
               includePaths={['portainer.wizard.endpoints']}
@@ -94,13 +106,15 @@ export function SettingsSidebar({
             />
             <SidebarItem
               to="portainer.groups"
-              label="Groups"
+              label={t('navigation.settings.groups', {
+                defaultValue: 'Groups',
+              })}
               isSubMenu
               data-cy="portainerSidebar-environmentGroups"
             />
             <SidebarItem
               to="portainer.tags"
-              label="Tags"
+              label={t('navigation.settings.tags', { defaultValue: 'Tags' })}
               isSubMenu
               data-cy="portainerSidebar-environmentTags"
             />
@@ -108,7 +122,9 @@ export function SettingsSidebar({
           </SidebarParent>
 
           <SidebarItem
-            label="Registries"
+            label={t('navigation.settings.registries', {
+              defaultValue: 'Registries',
+            })}
             to="portainer.registries"
             icon={Radio}
             data-cy="portainerSidebar-registries"
@@ -117,14 +133,16 @@ export function SettingsSidebar({
           {isBE && (
             <SidebarItem
               to="portainer.licenses"
-              label="Licenses"
+              label={t('navigation.settings.licenses', {
+                defaultValue: 'Licenses',
+              })}
               icon={Award}
               data-cy="portainerSidebar-licenses"
             />
           )}
 
           <SidebarParent
-            label="Logs"
+            label={t('navigation.settings.logs', { defaultValue: 'Logs' })}
             to="portainer.authLogs"
             icon={FileText}
             pathOptions={{
@@ -134,14 +152,18 @@ export function SettingsSidebar({
             listId="k8sSidebar-logs"
           >
             <SidebarItem
-              label="Authentication"
+              label={t('navigation.settings.authentication', {
+                defaultValue: 'Authentication',
+              })}
               to="portainer.authLogs"
               isSubMenu
               data-cy="portainerSidebar-authLogs"
             />
             <SidebarItem
               to="portainer.activityLogs"
-              label="Activity"
+              label={t('navigation.settings.activity', {
+                defaultValue: 'Activity',
+              })}
               isSubMenu
               data-cy="portainerSidebar-activityLogs"
             />
@@ -150,7 +172,9 @@ export function SettingsSidebar({
       )}
       {isBE && !isPureAdmin && isAdmin && (
         <SidebarParent
-          label="Environment-related"
+          label={t('navigation.settings.environmentRelated', {
+            defaultValue: 'Environment-related',
+          })}
           icon={HardDrive}
           to="portainer.endpoints.updateSchedules"
           data-cy="portainerSidebar-environments-area"
@@ -163,20 +187,26 @@ export function SettingsSidebar({
       <SidebarItem
         to="portainer.notifications"
         icon={Bell}
-        label="Notifications"
+        label={t('navigation.settings.notifications', {
+          defaultValue: 'Notifications',
+        })}
         data-cy="portainerSidebar-notifications"
       />
       {isPureAdmin && (
         <SidebarParent
           to="portainer.settings"
-          label="Settings"
+          label={t('navigation.settings.settings', {
+            defaultValue: 'Settings',
+          })}
           icon={Settings}
           data-cy="portainerSidebar-settings"
           listId="portainer-settings"
         >
           <SidebarItem
             to="portainer.settings"
-            label="General"
+            label={t('navigation.settings.general', {
+              defaultValue: 'General',
+            })}
             isSubMenu
             ignorePaths={[
               'portainer.settings.authentication',
@@ -188,7 +218,9 @@ export function SettingsSidebar({
           {!window.ddExtension && (
             <SidebarItem
               to="portainer.settings.authentication"
-              label="Authentication"
+              label={t('navigation.settings.authentication', {
+                defaultValue: 'Authentication',
+              })}
               isSubMenu
               data-cy="portainerSidebar-authentication"
             />
@@ -196,7 +228,9 @@ export function SettingsSidebar({
           {isBE && (
             <SidebarItem
               to="portainer.settings.sharedcredentials"
-              label="Shared Credentials"
+              label={t('navigation.settings.sharedCredentials', {
+                defaultValue: 'Shared Credentials',
+              })}
               isSubMenu
               data-cy="portainerSidebar-cloud"
             />
@@ -204,19 +238,25 @@ export function SettingsSidebar({
 
           <SidebarItem
             to="portainer.settings.edgeCompute"
-            label="Edge Compute"
+            label={t('navigation.settings.edgeCompute', {
+              defaultValue: 'Edge Compute',
+            })}
             isSubMenu
             data-cy="portainerSidebar-edgeCompute"
           />
 
-          <SidebarItem.Wrapper label="Get Help">
+          <SidebarItem.Wrapper
+            label={t('navigation.settings.getHelp', {
+              defaultValue: 'Get Help',
+            })}
+          >
             <a
               href="https://www.portainer.io/resources/get-support"
               target="_blank"
               rel="noreferrer"
               className="flex h-8 w-full items-center rounded px-3 text-sm !text-inherit transition-colors duration-200 hover:bg-blue-5/20 hover:!underline focus:no-underline be:hover:bg-gray-5/20 th-dark:hover:bg-gray-true-5/20"
             >
-              Get Help
+              {t('navigation.settings.getHelp', { defaultValue: 'Get Help' })}
             </a>
           </SidebarItem.Wrapper>
         </SidebarParent>
@@ -226,6 +266,7 @@ export function SettingsSidebar({
 }
 
 function EdgeUpdatesSidebarItem() {
+  const { t } = useTranslation();
   const settingsQuery = usePublicSettings();
 
   if (!isBE || !settingsQuery.data?.EnableEdgeComputeFeatures) {
@@ -235,7 +276,9 @@ function EdgeUpdatesSidebarItem() {
   return (
     <SidebarItem
       to="portainer.endpoints.updateSchedules"
-      label="Update & Rollback"
+      label={t('navigation.settings.updateRollback', {
+        defaultValue: 'Update & Rollback',
+      })}
       isSubMenu
       data-cy="portainerSidebar-updateSchedules"
     />

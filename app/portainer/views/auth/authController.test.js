@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 import { getReturnUrl } from '@/react/portainer/helpers/returnUrl';
+import i18n from '@/i18n';
 
 import AuthenticationController from './authController.js';
 
@@ -25,7 +26,7 @@ vi.mock('@/portainer/services/http-request.helper', () => ({
   dispatchCacheRefreshEvent: vi.fn(),
 }));
 
-function buildController({ userDetails = {}, isAdmin = false, routes = {} } = {}) {
+function buildController({ userDetails = {}, isAdmin = false, routes = {}, $scope = { $on: vi.fn(), $evalAsync: (callback) => callback() } } = {}) {
   const $state = { go: vi.fn(), current: { name: 'portainer.auth' } };
   const $window = { location: { href: AUTH_URL } };
   // stands in for ui-router: unknown paths fall to the `otherwise` rule (type RAW)
@@ -37,7 +38,7 @@ function buildController({ userDetails = {}, isAdmin = false, routes = {} } = {}
 
   const controller = new AuthenticationController(
     vi.fn(),
-    {},
+    $scope,
     $state,
     {},
     $window,
@@ -60,7 +61,38 @@ function buildController({ userDetails = {}, isAdmin = false, routes = {} } = {}
 
 beforeEach(() => {
   vi.clearAllMocks();
+  i18n.changeLanguage('en');
   getReturnUrl.mockReturnValue(null);
+});
+
+describe('translated authentication errors', () => {
+  it('updates internal errors on language changes and removes its listener on destroy', async () => {
+    let destroy;
+    const $scope = {
+      $on: (_event, callback) => {
+        destroy = callback;
+      },
+      $evalAsync: (callback) => callback(),
+    };
+    const { controller } = buildController({ $scope });
+    controller.LocalStorage.getLoginStateUUID = () => 'expected-state';
+
+    await controller.manageOauthCodeReturn('code', 'invalid-state');
+    expect(controller.state.AuthenticationError).toBe('Invalid OAuth state, try again.');
+    await i18n.changeLanguage('zh-CN');
+    expect(controller.state.AuthenticationError).toBe(i18n.t('auth.errors.invalidOAuthState'));
+    destroy();
+    await i18n.changeLanguage('en');
+    expect(controller.state.AuthenticationError).not.toBe('Invalid OAuth state, try again.');
+  });
+
+  it('preserves external diagnostic text', async () => {
+    const { controller } = buildController();
+    controller.error({ details: 'Invalid JWT token' }, 'External diagnostic');
+    await i18n.changeLanguage('zh-CN');
+    expect(controller.state.AuthenticationError).toBe('External diagnostic');
+    expect(controller.Notifications.error).toHaveBeenCalledWith('Failure', { details: 'Invalid JWT token' }, 'External diagnostic');
+  });
 });
 
 describe('postLoginSteps', () => {

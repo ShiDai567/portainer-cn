@@ -1,5 +1,6 @@
 import angular from 'angular';
 import uuidv4 from 'uuid/v4';
+import i18n from '@/i18n';
 import { getEnvironments } from '@/react/portainer/environments/environment.service';
 import { dispatchCacheRefreshEvent } from '@/portainer/services/http-request.helper';
 import { isSameDocumentUrl, isValidReturnUrl } from '@/portainer/helpers/url-utils';
@@ -52,6 +53,16 @@ class AuthenticationController {
       OAuthProvider: '',
     };
 
+    const onLanguageChanged = () => {
+      this.$scope.$evalAsync(() => {
+        if (this.authenticationErrorKey) {
+          this.state.AuthenticationError = i18n.t(this.authenticationErrorKey);
+        }
+      });
+    };
+    i18n.on('languageChanged', onLanguageChanged);
+    this.$scope.$on('$destroy', () => i18n.off('languageChanged', onLanguageChanged));
+
     this.checkForEndpointsAsync = this.checkForEndpointsAsync.bind(this);
     this.postLoginSteps = this.postLoginSteps.bind(this);
 
@@ -88,12 +99,18 @@ class AuthenticationController {
   }
 
   error(err, message) {
+    this.authenticationErrorKey = null;
     this.state.AuthenticationError = message;
     if (!err) {
       err = {};
     }
-    this.Notifications.error('Failure', err, message);
+    this.Notifications.error(i18n.t('auth.errors.failure'), err, message);
     this.state.loginInProgress = false;
+  }
+
+  internalError(err, key) {
+    this.error(err, i18n.t(key));
+    this.authenticationErrorKey = key;
   }
 
   determineOauthProvider(LoginURI) {
@@ -170,7 +187,7 @@ class AuthenticationController {
 
       return this.$state.go('portainer.home');
     } catch (err) {
-      this.error(err, 'Unable to retrieve environments');
+      this.internalError(err, 'auth.errors.retrieveEnvironments');
     }
   }
 
@@ -192,7 +209,7 @@ class AuthenticationController {
       await this.Authentication.OAuthLogin(code);
       this.URLHelper.cleanParameters();
     } catch (err) {
-      this.error(err, 'Unable to login via OAuth');
+      this.internalError(err, 'auth.errors.oauthLogin');
     }
   }
 
@@ -216,7 +233,7 @@ class AuthenticationController {
       this.state.loginInProgress = true;
       await this.internalLoginAsync(username, password);
     } catch (err) {
-      this.error(err, 'Unable to login');
+      this.internalError(err, 'auth.errors.login');
     }
   }
 
@@ -236,7 +253,7 @@ class AuthenticationController {
     if (this.hasValidState(state)) {
       await this.oAuthLoginAsync(code);
     } else {
-      this.error(null, 'Invalid OAuth state, try again.');
+      this.internalError(null, 'auth.errors.invalidOAuthState');
     }
   }
 
@@ -247,7 +264,7 @@ class AuthenticationController {
         this.$state.go('portainer.init.admin');
       }
     } catch (err) {
-      this.error(err, 'Unable to verify administrator account existence');
+      this.internalError(err, 'auth.errors.verifyAdministrator');
     }
   }
 
@@ -287,6 +304,7 @@ class AuthenticationController {
       }
       const error = this.LocalStorage.getLogoutReason();
       if (error) {
+        this.authenticationErrorKey = null;
         this.state.AuthenticationError = error;
         this.LocalStorage.cleanLogoutReason();
       }
@@ -301,7 +319,7 @@ class AuthenticationController {
 
       await this.authEnabledFlowAsync();
     } catch (err) {
-      this.Notifications.error('Failure', err, 'Unable to retrieve public settings');
+      this.Notifications.error(i18n.t('auth.errors.failure'), err, i18n.t('auth.errors.retrievePublicSettings'));
     }
   }
 

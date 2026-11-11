@@ -13,8 +13,9 @@
       <!-- !login box logo -->
 
       <div class="row p-5 text-center">
-        <p class="text-xl">Log in to your account</p>
-        <p class="text-md text-muted fw-bold">Welcome back! Please enter your details</p>
+        <p class="text-xl">{{ 'auth.loginTitle' | portainerTranslate }}</p>
+        <p class="text-md text-muted fw-bold">{{ 'auth.welcomeMessage' | portainerTranslate }}</p>
+        <language-selector></language-selector>
       </div>
 
       <!-- login panel -->
@@ -27,19 +28,19 @@
                 <a ng-href="{{ ctrl.OAuthLoginURI }}">
                   <div class="btn btn-primary btn-lg btn-block" ng-if="ctrl.state.OAuthProvider === 'Microsoft'">
                     <pr-icon icon="'svg-microsoft'"></pr-icon>
-                    Login with Microsoft
+                    {{ 'auth.loginWithProvider' | portainerTranslate: { provider: 'Microsoft' } }}
                   </div>
                   <div class="btn btn-primary btn-lg btn-block" ng-if="ctrl.state.OAuthProvider === 'Google'">
                     <pr-icon icon="'svg-google'"></pr-icon>
-                    Login with Google
+                    {{ 'auth.loginWithProvider' | portainerTranslate: { provider: 'Google' } }}
                   </div>
                   <div class="btn btn-primary btn-lg btn-block" ng-if="ctrl.state.OAuthProvider === 'Github'">
                     <pr-icon icon="'svg-github'"></pr-icon>
-                    Login with GitHub
+                    {{ 'auth.loginWithProvider' | portainerTranslate: { provider: 'GitHub' } }}
                   </div>
                   <div class="btn btn-primary btn-lg btn-block" ng-if="ctrl.state.OAuthProvider === 'OAuth'">
                     <pr-icon icon="'log-in'"></pr-icon>
-                    Login with OAuth
+                    {{ 'auth.loginWithProvider' | portainerTranslate: { provider: 'OAuth' } }}
                   </div>
                 </a>
               </div>
@@ -48,20 +49,22 @@
             <!-- divider -->
             <div class="form-group" ng-if="ctrl.state.showOAuthLogin">
               <div class="col-sm-12" style="display: flex; align-items: center; justify-content: center">
-                <div class="striketext small text-muted" style="display: flex; align-items: center; justify-content: center; width: 90%">or</div>
+                <div class="striketext small text-muted" style="display: flex; align-items: center; justify-content: center; width: 90%">{{ 'auth.or' | portainerTranslate }}</div>
               </div>
             </div>
 
             <!-- use internal auth button -->
             <div class="form-group" ng-if="ctrl.state.showOAuthLogin && !ctrl.state.showStandardLogin">
               <div class="col-sm-12" style="display: flex; justify-content: center">
-                <div class="btn btn-primary btn-md btn-block" style="margin-left: 2px" ng-click="ctrl.toggleStandardLogin()"> Use internal authentication </div>
+                <div class="btn btn-primary btn-md btn-block" style="margin-left: 2px" ng-click="ctrl.toggleStandardLogin()">
+                  {{ 'auth.useInternalAuthentication' | portainerTranslate }}
+                </div>
               </div>
             </div>
 
             <!-- !username input -->
             <div ng-if="ctrl.state.showStandardLogin">
-              <div class="pb-2">Username</div>
+              <div class="pb-2">{{ 'auth.username' | portainerTranslate }}</div>
               <input
                 id="username"
                 type="text"
@@ -70,13 +73,13 @@
                 name="username"
                 ng-model="ctrl.formValues.Username"
                 auto-focus
-                placeholder="Enter your username"
+                placeholder="{{ 'auth.usernamePlaceholder' | portainerTranslate }}"
               />
             </div>
 
             <!-- password input -->
             <div ng-if="ctrl.state.showStandardLogin">
-              <div class="pb-2">Password</div>
+              <div class="pb-2">{{ 'auth.password' | portainerTranslate }}</div>
               <div class="relative">
                 <input
                   id="password"
@@ -86,7 +89,7 @@
                   ng-model="ctrl.formValues.Password"
                   autocomplete="off"
                   data-cy="auth-passwordInput"
-                  placeholder="Enter your password"
+                  placeholder="{{ 'auth.passwordPlaceholder' | portainerTranslate }}"
                   ng-trim="false"
                 />
                 <button
@@ -97,7 +100,7 @@
                   tooltip-append-to-body="true"
                   tooltip-placement="top"
                   tooltip-class="portainer-tooltip"
-                  uib-tooltip="{{ ctrl.state.passwordInputType === 'password' ? 'Show password' : 'Hide password' }}"
+                  uib-tooltip="{{ (ctrl.state.passwordInputType === 'password' ? 'auth.showPassword' : 'auth.hidePassword') | portainerTranslate }}"
                 >
                   <pr-icon icon="ctrl.state.passwordInputType === 'password' ? 'eye-off' : 'eye'" size="'md'"></pr-icon>
                 </button>
@@ -115,8 +118,8 @@
                   ng-disabled="ctrl.state.loginInProgress"
                   data-cy="auth-loginButton"
                 >
-                  <span ng-hide="ctrl.state.loginInProgress">Login</span>
-                  <span ng-show="ctrl.state.loginInProgress">Login in progress...</span>
+                  <span ng-hide="ctrl.state.loginInProgress">{{ 'auth.login' | portainerTranslate }}</span>
+                  <span ng-show="ctrl.state.loginInProgress">{{ 'auth.loginInProgress' | portainerTranslate }}</span>
                 </button>
               </div>
             </div>
@@ -135,7 +138,7 @@
       <div class="panel panel-default" ng-show="ctrl.state.loginInProgress">
         <div class="panel-body">
           <div class="form-group text-center">
-            <span class="small text-muted">Authentication in progress... <span button-spinner="true"></span></span>
+            <span class="small text-muted">{{ 'auth.authenticationInProgress' | portainerTranslate }} <span button-spinner="true"></span></span>
           </div>
         </div>
       </div>

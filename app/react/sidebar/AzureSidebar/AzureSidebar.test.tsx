@@ -1,12 +1,17 @@
 import { render, within } from '@testing-library/react';
 
 import { UserViewModel } from '@/portainer/models/user';
+import i18n from '@/i18n';
 import { withUserProvider } from '@/react/test-utils/withUserProvider';
 import { withTestRouter } from '@/react/test-utils/withRouter';
 
 import { TestSidebarProvider } from '../useSidebarState';
 
 import { AzureSidebar } from './AzureSidebar';
+
+beforeEach(() => {
+  i18n.changeLanguage('en');
+});
 
 test('dashboard items should render correctly', () => {
   const { getByLabelText } = renderComponent();

@@ -1,9 +1,12 @@
 import clsx from 'clsx';
 import { Home } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 import { useIsEdgeAdmin, useIsPureAdmin } from '@/react/hooks/useUser';
 import { useIsCurrentUserTeamLeader } from '@/portainer/users/queries';
 import { usePublicSettings } from '@/react/portainer/settings/queries';
+
+import { LanguageSelector } from '@@/LanguageSelector';
 
 import styles from './Sidebar.module.css';
 import { EdgeComputeSidebar } from './EdgeComputeSidebar';
@@ -26,6 +29,7 @@ export function Sidebar() {
 }
 
 function InnerSidebar() {
+  const { t } = useTranslation();
   const isPureAdmin = useIsPureAdmin();
   const isAdminQuery = useIsEdgeAdmin({ noEnvScope: true });
   const isTeamLeader = useIsCurrentUserTeamLeader();
@@ -50,9 +54,10 @@ function InnerSidebar() {
           'flex flex-1 flex-col overflow-y-auto py-5 pl-5',
           { 'pr-5': isOpen }
         )}
-        aria-label="Main"
+        aria-label={t('navigation.main', { defaultValue: 'Main' })}
       >
         <Header logo={LogoURL} />
+        {isOpen && <LanguageSelector />}
         {/* negative margin + padding -> scrollbar won't hide the content */}
         <div
           className={clsx(
@@ -65,7 +70,7 @@ function InnerSidebar() {
             <SidebarItem
               to="portainer.home"
               icon={Home}
-              label="Home"
+              label={t('navigation.home', { defaultValue: 'Home' })}
               data-cy="portainerSidebar-home"
             />
 

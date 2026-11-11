@@ -1,0 +1,133 @@
+{
+  "language": { "label": "语言" },
+  "auth": {
+    "loginTitle": "登录您的账户",
+    "welcomeMessage": "欢迎回来！请输入您的登录信息",
+    "loginWithProvider": "使用 {{ provider }} 登录",
+    "or": "或",
+    "useInternalAuthentication": "使用内部身份验证",
+    "username": "用户名",
+    "usernamePlaceholder": "请输入用户名",
+    "password": "密码",
+    "passwordPlaceholder": "请输入密码",
+    "showPassword": "显示密码",
+    "hidePassword": "隐藏密码",
+    "login": "登录",
+    "loginInProgress": "正在登录...",
+    "authenticationInProgress": "正在进行身份验证...",
+    "errors": {
+      "failure": "失败",
+      "retrieveEnvironments": "无法获取环境",
+      "oauthLogin": "无法通过 OAuth 登录",
+      "login": "无法登录",
+      "invalidOAuthState": "OAuth 状态无效，请重试。",
+      "verifyAdministrator": "无法检查管理员账户是否存在",
+      "retrievePublicSettings": "无法获取公共设置"
+    }
+  },
+  "navigation": {
+    "main": "主导航",
+    "home": "首页",
+    "dashboard": { "label": "仪表盘" },
+    "environment": { "label": "环境：", "noneSelected": "未选择", "clear": "清除环境" },
+    "azure": { "containerInstances": "容器实例" },
+    "appDelivery": { "title": "应用交付", "workflows": "工作流", "sources": "来源" },
+    "edge": {
+      "title": "Edge 计算",
+      "groups": "Edge 组",
+      "stacks": "Edge 堆栈",
+      "jobs": "Edge 作业",
+      "configurations": "Edge 配置",
+      "waitingRoom": "候接区",
+      "templates": "Edge 模板",
+      "application": "应用",
+      "custom": "自定义"
+    },
+    "docker": {
+      "swarm": "Swarm",
+      "host": "主机",
+      "templates": "模板",
+      "application": "应用",
+      "custom": "自定义",
+      "stacks": "堆栈",
+      "services": "服务",
+      "containers": "容器",
+      "images": "镜像",
+      "networks": "网络",
+      "volumes": "存储卷",
+      "configs": "配置",
+      "secrets": "密钥",
+      "events": "事件",
+      "details": "详情",
+      "setup": "设置",
+      "registries": "镜像仓库"
+    },
+    "kubernetes": {
+      "customTemplates": "自定义模板",
+      "namespaces": "命名空间",
+      "applications": "应用",
+      "networking": "网络",
+      "services": "服务",
+      "ingresses": "Ingress",
+      "configurations": "配置映射和密钥",
+      "volumes": "存储卷",
+      "moreResources": "更多资源",
+      "jobs": "定时任务和任务",
+      "serviceAccounts": "服务账户",
+      "clusterRoles": "集群角色",
+      "roles": "角色",
+      "cluster": "集群",
+      "details": "详情",
+      "setup": "设置",
+      "securityConstraints": "安全约束",
+      "securityConstraintsBE": "安全约束",
+      "registries": "镜像仓库",
+      "kubectlShell": "kubectl 终端",
+      "kubectlShellTooltip": "kubectl 终端"
+    },
+    "settings": {
+      "administration": "管理",
+      "userRelated": "用户相关",
+      "users": "用户",
+      "teams": "团队",
+      "roles": "角色",
+      "environmentRelated": "环境相关",
+      "environments": "环境",
+      "groups": "环境组",
+      "tags": "标签",
+      "registries": "镜像仓库",
+      "licenses": "许可证",
+      "logs": "日志",
+      "authentication": "身份验证",
+      "activity": "活动",
+      "notifications": "通知",
+      "settings": "设置",
+      "general": "常规",
+      "sharedCredentials": "共享凭据",
+      "edgeCompute": "边缘计算",
+      "getHelp": "获取帮助",
+      "updateRollback": "更新与回滚"
+    }
+  },
+  "reactExample": {
+    "registries": {
+      "link": "镜像仓库 <strong>链接</strong>",
+      "useSref": "镜像仓库 useSref"
+    }
+  },
+  "users": {
+    "access-tokens": {
+      "create": {
+        "add-button": "添加访问令牌",
+        "description-field-label": "描述",
+        "done-button": "完成",
+        "form": { "description-field": { "error": { "required": "此字段为必填项" }, "label": "描述" } },
+        "new-access-token": {
+          "copy-button": "复制访问令牌",
+          "explanation": "请复制新的访问令牌。您之后将无法再次查看此令牌。",
+          "title": "新访问令牌"
+        }
+      }
+    }
+  }
+}

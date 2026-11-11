@@ -1,6 +1,7 @@
 import { Terminal } from 'lucide-react';
 import clsx from 'clsx';
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
 
 import { EnvironmentId } from '@/react/portainer/environments/types';
 import { baseHref } from '@/portainer/helpers/pathHelper';
@@ -14,6 +15,7 @@ interface Props {
   environmentId: EnvironmentId;
 }
 export function KubectlShellButton({ environmentId }: Props) {
+  const { t } = useTranslation();
   const { isOpen: isSidebarOpen } = useSidebarState();
 
   const button = (
@@ -25,7 +27,11 @@ export function KubectlShellButton({ environmentId }: Props) {
       className={clsx('sidebar', !isSidebarOpen && '!p-1')}
       icon={Terminal}
     >
-      {isSidebarOpen ? 'kubectl shell' : ''}
+      {isSidebarOpen
+        ? t('navigation.kubernetes.kubectlShell', {
+            defaultValue: 'kubectl shell',
+          })
+        : ''}
     </Button>
   );
 
@@ -34,7 +40,11 @@ export function KubectlShellButton({ environmentId }: Props) {
       {!isSidebarOpen && (
         <SidebarTooltip
           content={
-            <span className="whitespace-nowrap text-sm">Kubectl Shell</span>
+            <span className="whitespace-nowrap text-sm">
+              {t('navigation.kubernetes.kubectlShellTooltip', {
+                defaultValue: 'Kubectl Shell',
+              })}
+            </span>
           }
         >
           <span className="flex w-full justify-center">{button}</span>

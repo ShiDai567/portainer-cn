@@ -2,6 +2,8 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 import { PropsWithChildren, useMemo } from 'react';
 
+import i18n from '@/i18n';
+
 import { Context } from '../useSidebarState';
 
 import { KubectlShellButton } from './KubectlShellButton';
@@ -14,6 +16,7 @@ const mockWindowOpen = vi.fn();
 const originalWindowOpen = window.open;
 
 beforeEach(() => {
+  i18n.changeLanguage('en');
   window.open = mockWindowOpen;
   mockWindowOpen.mockClear();
 });

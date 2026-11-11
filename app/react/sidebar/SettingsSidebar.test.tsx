@@ -1,7 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
 
 import { UserViewModel } from '@/portainer/models/user';
+import i18n from '@/i18n';
 import { withUserProvider } from '@/react/test-utils/withUserProvider';
 import { withTestRouter } from '@/react/test-utils/withRouter';
 import * as featureFlags from '@/react/portainer/feature-flags/feature-flags.service';
@@ -17,6 +18,7 @@ vi.mock('@/react/portainer/settings/queries', () => ({
 
 describe('SettingsSidebar', () => {
   beforeEach(() => {
+    i18n.changeLanguage('en');
     vi.spyOn(featureFlags, 'isBE', 'get').mockReturnValue(false);
     // Default mock for usePublicSettings - returns data based on selector
     vi.mocked(usePublicSettings).mockImplementation(((options?: {
@@ -37,6 +39,22 @@ describe('SettingsSidebar', () => {
 
   afterEach(() => {
     vi.restoreAllMocks();
+  });
+
+  it('updates the existing navigation when the language changes', async () => {
+    renderComponent({ isPureAdmin: true, isAdmin: true });
+
+    await act(async () => {
+      await i18n.changeLanguage('zh-CN');
+    });
+
+    expect(screen.getByText('管理')).toBeInTheDocument();
+    expect(
+      screen.getByTestId('portainerSidebar-environments')
+    ).toHaveTextContent('环境');
+    expect(screen.getByTestId('portainerSidebar-registries')).toHaveTextContent(
+      '镜像仓库'
+    );
   });
 
   describe('Pure Admin User', () => {
