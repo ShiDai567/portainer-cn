@@ -1,4 +1,5 @@
 import { Form, Formik } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 import { useCurrentUser } from '@/react/hooks/useUser';
 import { notifySuccess } from '@/portainer/services/notifications';
@@ -16,6 +17,7 @@ type FormValues = {
 };
 
 export function ApplicationSettingsForm() {
+  const { t } = useTranslation();
   const { user } = useCurrentUser();
   const updateSettingsMutation = useUpdateUserMutation();
 
@@ -33,13 +35,16 @@ export function ApplicationSettingsForm() {
       {({ isValid, dirty, values, setFieldValue }) => (
         <Form className="form-horizontal">
           <TextTip color="orange" className="mb-3">
-            Enabling front-end data caching can mean that changes to Kubernetes
-            clusters made by other users or outside of Portainer may take up to
-            five minutes to show in your session. This caching only applies to
-            Kubernetes environments.
+            {t('account.application.cacheWarning', {
+              defaultValue:
+                'Enabling front-end data caching can mean that changes to Kubernetes clusters made by other users or outside of Portainer may take up to five minutes to show in your session. This caching only applies to Kubernetes environments.',
+            })}
           </TextTip>
           <SwitchField
-            label="Enable front-end data caching for Kubernetes environments"
+            label={t('account.application.enableCache', {
+              defaultValue:
+                'Enable front-end data caching for Kubernetes environments',
+            })}
             data-cy="account-applicationSettingsUseCacheSwitch"
             checked={values.useCache}
             onChange={(value) => setFieldValue('useCache', value)}
@@ -49,13 +54,15 @@ export function ApplicationSettingsForm() {
           <div className="form-group">
             <div className="col-sm-12">
               <LoadingButton
-                loadingText="Saving..."
+                loadingText={t('account.application.saving', {
+                  defaultValue: 'Saving...',
+                })}
                 isLoading={updateSettingsMutation.isLoading}
                 disabled={!isValid || !dirty}
                 className="!ml-0"
                 data-cy="account-applicationSettingsSaveButton"
               >
-                Save
+                {t('account.application.save', { defaultValue: 'Save' })}
               </LoadingButton>
             </div>
           </div>
@@ -73,13 +80,19 @@ export function ApplicationSettingsForm() {
         onSuccess() {
           updateAxiosAdapter(values.useCache);
           notifySuccess(
-            'Success',
-            'Successfully updated application settings.'
+            t('account.application.success', { defaultValue: 'Success' }),
+            t('account.application.updateSuccess', {
+              defaultValue: 'Successfully updated application settings.',
+            })
           );
           // a full reload is required to update the angular $http cache setting
           setTimeout(() => window.location.reload(), 2000); // allow 2s to show the success notification
         },
-        ...withError('Unable to update application settings'),
+        ...withError(
+          t('account.application.updateError', {
+            defaultValue: 'Unable to update application settings',
+          })
+        ),
       }
     );
   }

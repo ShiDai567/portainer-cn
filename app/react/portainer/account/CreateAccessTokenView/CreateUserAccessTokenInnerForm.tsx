@@ -1,4 +1,5 @@
 import { Field, Form, useFormikContext } from 'formik';
+import { useTranslation } from 'react-i18next';
 
 import { FormControl } from '@@/form-components/FormControl';
 import { Input } from '@@/form-components/Input';
@@ -11,6 +12,7 @@ interface Props {
 }
 
 export function CreateUserAccessTokenInnerForm({ showAuthentication }: Props) {
+  const { t } = useTranslation();
   const { errors, values, handleSubmit, isValid, dirty } =
     useFormikContext<ApiKeyFormValues>();
 
@@ -23,7 +25,9 @@ export function CreateUserAccessTokenInnerForm({ showAuthentication }: Props) {
       {showAuthentication && (
         <FormControl
           inputId="password"
-          label="Current password"
+          label={t('users.access-tokens.create.current-password-field-label', {
+            defaultValue: 'Current password',
+          })}
           required
           errors={errors.password}
         >
@@ -39,7 +43,9 @@ export function CreateUserAccessTokenInnerForm({ showAuthentication }: Props) {
       )}
       <FormControl
         inputId="description"
-        label="Description"
+        label={t('users.access-tokens.create.description-field-label', {
+          defaultValue: 'Description',
+        })}
         required
         errors={errors.description}
       >
@@ -54,9 +60,13 @@ export function CreateUserAccessTokenInnerForm({ showAuthentication }: Props) {
         disabled={!isValid || !dirty}
         data-cy="create-access-token-button"
         isLoading={false}
-        loadingText="Adding access token..."
+        loadingText={t('users.access-tokens.create.adding-access-token', {
+          defaultValue: 'Adding access token...',
+        })}
       >
-        Add access token
+        {t('users.access-tokens.create.add-button', {
+          defaultValue: 'Add access token',
+        })}
       </LoadingButton>
     </Form>
   );

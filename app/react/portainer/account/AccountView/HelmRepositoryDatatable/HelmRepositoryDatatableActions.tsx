@@ -1,6 +1,5 @@
 import { useRouter } from '@uirouter/react';
-
-import { pluralize } from '@/portainer/helpers/strings';
+import { useTranslation } from 'react-i18next';
 
 import { AddButton } from '@@/buttons';
 import { DeleteButton } from '@@/buttons/DeleteButton';
@@ -13,6 +12,7 @@ interface Props {
 }
 
 export function HelmRepositoryDatatableActions({ selectedItems }: Props) {
+  const { t } = useTranslation();
   const router = useRouter();
   const deleteHelmRepoMutation = useDeleteHelmRepositoriesMutation();
 
@@ -21,18 +21,20 @@ export function HelmRepositoryDatatableActions({ selectedItems }: Props) {
       <DeleteButton
         disabled={selectedItems.length === 0}
         onConfirmed={() => onDeleteClick(selectedItems)}
-        confirmMessage={`Are you sure you want to remove the selected Helm ${pluralize(
-          selectedItems.length,
-          'repository',
-          'repositories'
-        )}?`}
+        confirmMessage={t('account.helm.confirmRemove', {
+          count: selectedItems.length,
+          defaultValue_one:
+            'Are you sure you want to remove the selected {{count}} Helm repository?',
+          defaultValue_other:
+            'Are you sure you want to remove the selected {{count}} Helm repositories?',
+        })}
         data-cy="helmRepository-deleteButton"
       />
       <AddButton
         to="portainer.account.createHelmRepository"
         data-cy="helmRepository-addButton"
       >
-        Add Helm repository
+        {t('account.helm.add', { defaultValue: 'Add Helm repository' })}
       </AddButton>
     </>
   );

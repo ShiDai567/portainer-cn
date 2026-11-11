@@ -1,6 +1,7 @@
 import { HelpCircle } from 'lucide-react';
 import clsx from 'clsx';
 import { useCurrentStateAndParams } from '@uirouter/react';
+import { useTranslation } from 'react-i18next';
 
 import { useSystemVersion } from '@/react/portainer/system/useSystemVersion';
 
@@ -8,6 +9,10 @@ import headerStyles from './HeaderTitle.module.css';
 
 export function ContextHelp() {
   const docsUrl = useDocsUrl();
+  const { t } = useTranslation();
+  const documentationLabel = t('header.help.documentation', {
+    defaultValue: 'Documentation',
+  });
 
   return (
     <div className={headerStyles.menuButton}>
@@ -21,7 +26,8 @@ export function ContextHelp() {
           'text-gray-8',
           'th-dark:text-gray-warm-7'
         )}
-        title="Documentation"
+        title={documentationLabel}
+        aria-label={documentationLabel}
         rel="noreferrer"
         data-cy="context-help-button"
       >

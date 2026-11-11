@@ -115,6 +115,25 @@
       "label": "User Menu",
       "myAccount": "My account",
       "logOut": "Log out"
+    },
+    "notifications": {
+      "toggle": "Notifications menu toggle",
+      "label": "Notifications Menu",
+      "title": "Notifications",
+      "clearAll": "Clear all",
+      "viewAll": "View all notifications",
+      "empty": "You have no notifications yet.",
+      "delete": "Delete notification",
+      "relativeTime": {
+        "hoursAgo_one": "{{count}} hour ago",
+        "hoursAgo_other": "{{count}} hours ago",
+        "minutesAgo_one": "{{count}} minute ago",
+        "minutesAgo_other": "{{count}} minutes ago",
+        "justNow": "Just now"
+      }
+    },
+    "help": {
+      "documentation": "Documentation"
     }
   },
   "init": {
@@ -151,6 +170,19 @@
       "restorePortainerFromBackup": "Restore Portainer from backup",
       "restoreBackupDescription": "This will restore the Portainer metadata which contains information about the environments, stacks and applications, as well as the configured users.",
       "uploadBackupFile": "You can upload a backup file from your computer.",
+      "uploadBackupOption": "Upload backup file",
+      "retrieveFromS3": "Retrieve from S3",
+      "failure": "Failure",
+      "success": "Success",
+      "createAdministratorFailure": "Unable to create administrator user",
+      "setupTokenInvalid": "Setup token is missing or invalid. Find the current token in the Portainer server logs.",
+      "retrieveApplicationSettingsFailure": "Unable to retrieve application settings",
+      "verifyAdministratorFailure": "Unable to verify administrator account existence",
+      "restoreBackupFailure": "Unable to restore the backup",
+      "backupRestored": "The backup has successfully been restored",
+      "checkStatusFailure": "Unable to check for status",
+      "restartTimeout": "Timeout to wait for Portainer restarting",
+      "setupTokenHelp": "Find this token in the Portainer server logs. See the <faq>setup token FAQ</faq> for more information.",
       "selectFile": "Select file",
       "backupPasswordTooltip": "If the backup is password protected, provide the password in order to extract the backup file, otherwise this field can be left empty.",
       "accessKeyId": "Access key ID",
@@ -169,6 +201,73 @@
       "restoringPortainer": "Restoring Portainer..."
     }
   },
+  "account": {
+    "title": "User settings",
+    "theme": {
+      "label": "Theme",
+      "light": "Light Theme",
+      "dark": "Dark Theme",
+      "highcontrast": "High Contrast",
+      "auto": "System Theme",
+      "title": "User theme",
+      "successTitle": "Success",
+      "updated": "User theme settings successfully updated",
+      "failureTitle": "Failure",
+      "updateError": "Unable to update user theme settings",
+      "userDetailsError": "Unable to get user details"
+    },
+    "password": {
+      "changeUserPassword": "Change user password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "confirmPassword": "Confirm password",
+      "updatePassword": "Update password",
+      "remindMeLater": "Remind me later",
+      "ldapAuthenticationNotice": "You cannot change your password when using LDAP authentication.",
+      "oauthAuthenticationNotice": "You cannot change your password when using OAuth authentication.",
+      "minimumLengthSettings": "Minimum password length is set here.",
+      "successTitle": "Success",
+      "updated": "Password successfully updated",
+      "failureTitle": "Failure",
+      "retrieveSettingsError": "Unable to retrieve application settings",
+      "forceChangeMessage": "Please update your password to a stronger password to continue using Portainer",
+      "ok": "OK",
+      "confirmTitle": "Are you sure?",
+      "confirmMessage": "You will be logged out after the password change. Do you want to change your password?",
+      "confirmButton": "Change"
+    },
+    "application": {
+      "title": "Application settings",
+      "cacheWarning": "Enabling front-end data caching can mean that changes to Kubernetes clusters made by other users or outside of Portainer may take up to five minutes to show in your session. This caching only applies to Kubernetes environments.",
+      "enableCache": "Enable front-end data caching for Kubernetes environments",
+      "saving": "Saving...",
+      "save": "Save",
+      "success": "Success",
+      "updateSuccess": "Successfully updated application settings.",
+      "updateError": "Unable to update application settings"
+    },
+    "accessTokens": {
+      "title": "Access tokens",
+      "columns": {
+        "description": "Description",
+        "prefix": "Prefix",
+        "created": "Created",
+        "lastUsed": "Last Used"
+      },
+      "confirmRemove": "Do you want to remove the selected access token(s)? Any script or application using these tokens will no longer be able to invoke the Portainer API.",
+      "successTitle": "Success",
+      "removed": "Access token(s) removed"
+    },
+    "helm": {
+      "title": "Helm repositories",
+      "description": "Adding a Helm repository here makes it available only in your Portainer user account. The Helm charts from these repositories (along with the globally set Helm repository) are shown in the 'Create from Code' screen.",
+      "adminHelp": "To manage your helm repositories globally, navigate to <settingsLink>Settings > General</settingsLink>.",
+      "confirmRemove_one": "Are you sure you want to remove the selected {{count}} Helm repository?",
+      "confirmRemove_other": "Are you sure you want to remove the selected {{count}} Helm repositories?",
+      "add": "Add Helm repository",
+      "globallySet": "Globally-set"
+    }
+  },
   "reactExample": {
     "registries": {
       "link": "Registries <strong>Link</strong>",
@@ -179,6 +278,18 @@
     "access-tokens": {
       "create": {
         "add-button": "Add access token",
+        "page-title": "Create access token",
+        "my-account": "My account",
+        "current-password-field-label": "Current password",
+        "adding-access-token": "Adding access token...",
+        "error": "Unable to create access token",
+        "success-title": "Success",
+        "success": "Access token successfully created",
+        "validation": {
+          "passwordRequired": "Password is required.",
+          "descriptionMax": "Description must be at most 128 characters",
+          "descriptionRequired": "Description is required."
+        },
         "description-field-label": "Description",
         "done-button": "Done",
         "form": {
@@ -192,7 +303,8 @@
         "new-access-token": {
           "copy-button": "Copy access token",
           "explanation": "Please copy the new access token. You won't be able to view the token again.",
-          "title": "New access token"
+          "title": "New access token",
+          "copied": "copied"
         }
       }
     }

@@ -1,4 +1,5 @@
 import { useMemo, useEffect } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 
 import { useCurrentUser } from '@/react/hooks/useUser';
 import helm from '@/assets/ico/vendor/helm.svg?c';
@@ -20,6 +21,7 @@ const storageKey = 'helmRepository';
 const settingsStore = createPersistedStore(storageKey);
 
 export function HelmRepositoryDatatable() {
+  const { t } = useTranslation();
   const { user } = useCurrentUser();
   const helmReposQuery = useHelmRepositories(user.Id);
 
@@ -65,7 +67,7 @@ export function HelmRepositoryDatatable() {
       description={<HelmDatatableDescription isAdmin={isAdminUser} />}
       settingsManager={tableState}
       columns={columns}
-      title="Helm repositories"
+      title={t('account.helm.title', { defaultValue: 'Helm repositories' })}
       titleIcon={helm}
       titleId="helm-repositories"
       renderTableActions={(selectedRows) => (
@@ -79,26 +81,30 @@ export function HelmRepositoryDatatable() {
 }
 
 function HelmDatatableDescription({ isAdmin }: { isAdmin: boolean }) {
+  const { t } = useTranslation();
+
   return (
     <TextTip color="blue" className="mb-3">
       <p>
-        Adding a Helm repository here makes it available only in your Portainer
-        user account. The Helm charts from these repositories (along with the
-        globally set Helm repository) are shown in the &apos;Create from
-        Code&apos; screen.
+        {t('account.helm.description', {
+          defaultValue:
+            "Adding a Helm repository here makes it available only in your Portainer user account. The Helm charts from these repositories (along with the globally set Helm repository) are shown in the 'Create from Code' screen.",
+        })}
       </p>
       {isAdmin && (
-        <>
-          To manage your helm repositories globally, navigate to{' '}
-          <Link
-            to="portainer.settings"
-            params={{ '#': 'kubernetes-settings' }}
-            data-cy="helm-settings-link"
-          >
-            Settings &gt; General
-          </Link>
-          .
-        </>
+        <Trans
+          i18nKey="account.helm.adminHelp"
+          defaults="To manage your helm repositories globally, navigate to <settingsLink>Settings > General</settingsLink>."
+          components={{
+            settingsLink: (
+              <Link
+                to="portainer.settings"
+                params={{ '#': 'kubernetes-settings' }}
+                data-cy="helm-settings-link"
+              />
+            ),
+          }}
+        />
       )}
     </TextTip>
   );

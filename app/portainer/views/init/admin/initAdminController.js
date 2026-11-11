@@ -1,5 +1,6 @@
 import { getEnvironments } from '@/react/portainer/environments/environment.service';
 import { restoreOptions } from '@/react/portainer/init/InitAdminView/restore-options';
+import i18n from '@/i18n';
 
 const REDIRECT_REASON_TIMEOUT = 'AdminInitTimeout';
 
@@ -14,7 +15,17 @@ angular.module('portainer.app').controller('InitAdminController', [
   'BackupService',
   'StatusService',
   function ($scope, $state, Notifications, Authentication, StateManager, SettingsService, UserService, BackupService, StatusService) {
-    $scope.restoreOptions = restoreOptions;
+    function updateRestoreOptions() {
+      $scope.restoreOptions = restoreOptions.map((option) => ({
+        ...option,
+        label: option.value === 'file' ? i18n.t('init.admin.uploadBackupOption') : option.value === 's3' ? i18n.t('init.admin.retrieveFromS3') : option.label,
+      }));
+    }
+
+    updateRestoreOptions();
+    const onLanguageChanged = () => $scope.$evalAsync(updateRestoreOptions);
+    i18n.on('languageChanged', onLanguageChanged);
+    $scope.$on('$destroy', () => i18n.off('languageChanged', onLanguageChanged));
 
     $scope.uploadBackup = uploadBackup;
 
@@ -79,7 +90,7 @@ angular.module('portainer.app').controller('InitAdminController', [
         })
         .catch(function error(err) {
           if (!handleError(err)) {
-            Notifications.error('Failure', err, 'Unable to create administrator user');
+            Notifications.error(i18n.t('init.admin.failure'), err, i18n.t('init.admin.createAdministratorFailure'));
           }
         })
         .finally(function final() {
@@ -96,7 +107,7 @@ angular.module('portainer.app').controller('InitAdminController', [
         return true;
       }
       if (err.status === 403) {
-        Notifications.error('Failure', err, 'Setup token is missing or invalid. Find the current token in the Portainer server logs.');
+        Notifications.error(i18n.t('init.admin.failure'), err, i18n.t('init.admin.setupTokenInvalid'));
         return true;
       }
       return false;
@@ -109,7 +120,7 @@ angular.module('portainer.app').controller('InitAdminController', [
           $scope.requiresSetupToken = data.RequiresSetupToken;
         })
         .catch(function error(err) {
-          Notifications.error('Failure', err, 'Unable to retrieve application settings');
+          Notifications.error(i18n.t('init.admin.failure'), err, i18n.t('init.admin.retrieveApplicationSettingsFailure'));
         });
 
       UserService.administratorExists()
@@ -119,7 +130,7 @@ angular.module('portainer.app').controller('InitAdminController', [
           }
         })
         .catch(function error(err) {
-          Notifications.error('Failure', err, 'Unable to verify administrator account existence');
+          Notifications.error(i18n.t('init.admin.failure'), err, i18n.t('init.admin.verifyAdministratorFailure'));
         });
     }
 
@@ -139,7 +150,7 @@ angular.module('portainer.app').controller('InitAdminController', [
         await restoreAsyncFn();
       } catch (err) {
         if (!handleError(err)) {
-          Notifications.error('Failure', err, 'Unable to restore the backup');
+          Notifications.error(i18n.t('init.admin.failure'), err, i18n.t('init.admin.restoreBackupFailure'));
         }
         $scope.state.backupInProgress = false;
 
@@ -148,11 +159,11 @@ angular.module('portainer.app').controller('InitAdminController', [
 
       try {
         await waitPortainerRestart();
-        Notifications.success('Success', 'The backup has successfully been restored');
+        Notifications.success(i18n.t('init.admin.success'), i18n.t('init.admin.backupRestored'));
         $state.go('portainer.auth');
       } catch (err) {
         handleError(err);
-        Notifications.error('Failure', err, 'Unable to check for status');
+        Notifications.error(i18n.t('init.admin.failure'), err, i18n.t('init.admin.checkStatusFailure'));
         await wait(2);
         location.reload();
       }
@@ -172,7 +183,7 @@ angular.module('portainer.app').controller('InitAdminController', [
           // pass
         }
       }
-      throw new Error('Timeout to wait for Portainer restarting');
+      throw new Error(i18n.t('init.admin.restartTimeout'));
     }
   },
 ]);

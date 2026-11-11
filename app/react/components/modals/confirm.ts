@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
 
+import i18n from '@/i18n';
+
 import { openDialog, DialogOptions } from './Dialog';
 import { OnSubmit, ModalType } from './Modal';
 import { ButtonOptions } from './types';
@@ -86,9 +88,15 @@ export async function confirmUpdate(
 export function confirmChangePassword() {
   return openConfirm({
     modalType: ModalType.Warn,
-    title: 'Are you sure?',
-    message:
-      'You will be logged out after the password change. Do you want to change your password?',
-    confirmButton: buildConfirmButton('Change'),
+    title: i18n.t('account.password.confirmTitle', {
+      defaultValue: 'Are you sure?',
+    }),
+    message: i18n.t('account.password.confirmMessage', {
+      defaultValue:
+        'You will be logged out after the password change. Do you want to change your password?',
+    }),
+    confirmButton: buildConfirmButton(
+      i18n.t('account.password.confirmButton', { defaultValue: 'Change' })
+    ),
   });
 }

@@ -1,3 +1,5 @@
+import i18n from '@/i18n';
+
 import { confirmChangePassword } from '@@/modals/confirm';
 import { openDialog } from '@@/modals/Dialog';
 import { buildConfirmButton } from '@@/modals/utils';
@@ -22,12 +24,12 @@ angular.module('portainer.app').controller('AccountController', [
       if (confirmed) {
         try {
           await UserService.updateUserPassword($scope.userID, $scope.formValues.currentPassword, $scope.formValues.newPassword);
-          Notifications.success('Success', 'Password successfully updated');
+          Notifications.success(i18n.t('account.password.successTitle'), i18n.t('account.password.updated'));
           StateManager.resetPasswordChangeSkips($scope.userID.toString());
           $scope.forceChangePassword = false;
           $state.go('portainer.logout');
         } catch (err) {
-          Notifications.error('Failure', err, err.msg);
+          Notifications.error(i18n.t('account.password.failureTitle'), err, err.msg);
         }
       }
     };
@@ -40,7 +42,7 @@ angular.module('portainer.app').controller('AccountController', [
           $state.go('portainer.home');
         }
       } catch (err) {
-        Notifications.error('Failure', err, err.msg);
+        Notifications.error(i18n.t('account.password.failureTitle'), err, err.msg);
       }
     };
 
@@ -93,7 +95,7 @@ angular.module('portainer.app').controller('AccountController', [
           StateManager.setRequiredPasswordLength(data.RequiredPasswordLength);
         })
         .catch(function error(err) {
-          Notifications.error('Failure', err, 'Unable to retrieve application settings');
+          Notifications.error(i18n.t('account.password.failureTitle'), err, i18n.t('account.password.retrieveSettingsError'));
         });
     }
 
@@ -103,7 +105,7 @@ angular.module('portainer.app').controller('AccountController', [
 
 function confirmForceChangePassword() {
   return openDialog({
-    message: 'Please update your password to a stronger password to continue using Portainer',
-    buttons: [buildConfirmButton('OK')],
+    message: i18n.t('account.password.forceChangeMessage'),
+    buttons: [buildConfirmButton(i18n.t('account.password.ok'))],
   });
 }

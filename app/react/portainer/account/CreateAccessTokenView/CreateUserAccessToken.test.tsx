@@ -1,6 +1,7 @@
 import userEvent from '@testing-library/user-event';
 import { render, waitFor } from '@testing-library/react';
 
+import '@/setup-tests/i18n';
 import { UserViewModel } from '@/portainer/models/user';
 import { withTestRouter } from '@/react/test-utils/withRouter';
 import { withUserProvider } from '@/react/test-utils/withUserProvider';

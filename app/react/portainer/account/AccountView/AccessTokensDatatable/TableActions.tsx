@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 import { notifySuccess } from '@/portainer/services/notifications';
 
 import { DeleteButton } from '@@/buttons/DeleteButton';
@@ -12,19 +14,25 @@ export function TableActions({
 }: {
   selectedItems: AccessToken[];
 }) {
+  const { t } = useTranslation();
   const deleteMutation = useDeleteAccessTokensMutation();
 
   return (
     <>
       <DeleteButton
         disabled={selectedItems.length === 0}
-        confirmMessage="Do you want to remove the selected access token(s)? Any script or application using these tokens will no longer be able to invoke the Portainer API."
+        confirmMessage={t('account.accessTokens.confirmRemove', {
+          defaultValue:
+            'Do you want to remove the selected access token(s)? Any script or application using these tokens will no longer be able to invoke the Portainer API.',
+        })}
         onConfirmed={handleRemove}
         data-cy="access-tokens-delete-button"
       />
 
       <AddButton to=".new-access-token" data-cy="access-tokens-add-button">
-        Add access token
+        {t('users.access-tokens.create.add-button', {
+          defaultValue: 'Add access token',
+        })}
       </AddButton>
     </>
   );
@@ -33,7 +41,12 @@ export function TableActions({
     const ids = selectedItems.map((item) => item.id);
     deleteMutation.mutate(ids, {
       onSuccess() {
-        notifySuccess('Success', 'Access token(s) removed');
+        notifySuccess(
+          t('account.accessTokens.successTitle', { defaultValue: 'Success' }),
+          t('account.accessTokens.removed', {
+            defaultValue: 'Access token(s) removed',
+          })
+        );
       },
     });
   }

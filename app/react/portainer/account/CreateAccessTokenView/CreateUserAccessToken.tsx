@@ -1,5 +1,6 @@
 import { Formik } from 'formik';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { useCurrentUser } from '@/react/hooks/useUser';
 import { AuthenticationMethod } from '@/react/portainer/settings/types';
@@ -21,6 +22,7 @@ const initialValues: ApiKeyFormValues = {
 };
 
 export function CreateUserAccessToken() {
+  const { t } = useTranslation();
   const mutation = useCreateUserAccessTokenMutation();
   const { user } = useCurrentUser();
   const [newAPIToken, setNewAPIToken] = useState('');
@@ -33,10 +35,19 @@ export function CreateUserAccessToken() {
   return (
     <>
       <PageHeader
-        title="Create access token"
+        title={t('users.access-tokens.create.page-title', {
+          defaultValue: 'Create access token',
+        })}
         breadcrumbs={[
-          { label: 'My account', link: 'portainer.account' },
-          'Add access token',
+          {
+            label: t('users.access-tokens.create.my-account', {
+              defaultValue: 'My account',
+            }),
+            link: 'portainer.account',
+          },
+          t('users.access-tokens.create.add-button', {
+            defaultValue: 'Add access token',
+          }),
         ]}
         reload
       />
@@ -50,7 +61,8 @@ export function CreateUserAccessToken() {
                   initialValues={initialValues}
                   onSubmit={onSubmit}
                   validationSchema={getAPITokenValidationSchema(
-                    requirePassword
+                    requirePassword,
+                    t
                   )}
                 >
                   <CreateUserAccessTokenInnerForm

@@ -66,6 +66,25 @@ describe('interface language', () => {
     );
   });
 
+  it('resolves localized notification times and Helm confirmation counts', async () => {
+    const i18n = await loadLanguage(['en-US']);
+
+    expect(
+      i18n.t('header.notifications.relativeTime.hoursAgo', { count: 1 })
+    ).toBe('1 hour ago');
+    expect(
+      i18n.t('header.notifications.relativeTime.hoursAgo', { count: 2 })
+    ).toBe('2 hours ago');
+
+    await i18n.changeLanguage('zh-CN');
+    expect(
+      i18n.t('header.notifications.relativeTime.hoursAgo', { count: 2 })
+    ).toBe('2 小时前');
+    expect(i18n.t('account.helm.confirmRemove', { count: 2 })).toBe(
+      '确定要删除选中的 2 个 Helm 仓库吗？'
+    );
+  });
+
   it('works when browser storage is unavailable', async () => {
     vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
       throw new DOMException('Storage blocked', 'SecurityError');

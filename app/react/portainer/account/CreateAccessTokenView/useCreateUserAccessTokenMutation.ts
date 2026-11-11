@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 
 import axios, { parseAxiosError } from '@/portainer/services/axios/axios';
 import { withError } from '@/react-tools/react-query';
@@ -11,10 +12,23 @@ export interface ApiKeyResponse {
 }
 
 export function useCreateUserAccessTokenMutation() {
+  const { t } = useTranslation();
+
   return useMutation(createUserAccessToken, {
-    ...withError('Unable to create access token'),
+    ...withError(
+      t('users.access-tokens.create.error', {
+        defaultValue: 'Unable to create access token',
+      })
+    ),
     onSuccess: () => {
-      notifySuccess('Success', 'Access token successfully created');
+      notifySuccess(
+        t('users.access-tokens.create.success-title', {
+          defaultValue: 'Success',
+        }),
+        t('users.access-tokens.create.success', {
+          defaultValue: 'Access token successfully created',
+        })
+      );
       // TODO: invalidate query when user page migrated to react.
     },
   });

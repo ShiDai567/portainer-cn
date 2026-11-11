@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react';
 
+import '@/setup-tests/i18n';
 import { UserViewModel } from '@/portainer/models/user';
 import { withUserProvider } from '@/react/test-utils/withUserProvider';
 import { withTestRouter } from '@/react/test-utils/withRouter';

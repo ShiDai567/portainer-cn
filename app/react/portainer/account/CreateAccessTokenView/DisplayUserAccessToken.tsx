@@ -1,15 +1,25 @@
+import { useTranslation } from 'react-i18next';
+
 import { Button, CopyButton } from '@@/buttons';
 import { FormSectionTitle } from '@@/form-components/FormSectionTitle';
 import { TextTip } from '@@/Tip/TextTip';
 import { Link } from '@@/Link';
 
 export function DisplayUserAccessToken({ apikey }: { apikey: string }) {
+  const { t } = useTranslation();
+
   return (
     <>
-      <FormSectionTitle>New access token</FormSectionTitle>
+      <FormSectionTitle>
+        {t('users.access-tokens.create.new-access-token.title', {
+          defaultValue: 'New access token',
+        })}
+      </FormSectionTitle>
       <TextTip>
-        Please copy the new access token. You won&#39;t be able to view the
-        token again.
+        {t('users.access-tokens.create.new-access-token.explanation', {
+          defaultValue:
+            "Please copy the new access token. You won't be able to view the token again.",
+        })}
       </TextTip>
       <div className="pt-5">
         <div className="inline-flex">
@@ -17,9 +27,19 @@ export function DisplayUserAccessToken({ apikey }: { apikey: string }) {
           <div>
             <CopyButton
               copyText={apikey}
+              displayText={t(
+                'users.access-tokens.create.new-access-token.copied',
+                { defaultValue: 'copied' }
+              )}
               color="link"
               data-cy="create-access-token-copy-button"
-            />
+            >
+              <span className="sr-only">
+                {t('users.access-tokens.create.new-access-token.copy-button', {
+                  defaultValue: 'Copy access token',
+                })}
+              </span>
+            </CopyButton>
           </div>
         </div>
         <hr />
@@ -31,7 +51,9 @@ export function DisplayUserAccessToken({ apikey }: { apikey: string }) {
         }}
         data-cy="create-access-token-done-button"
       >
-        Done
+        {t('users.access-tokens.create.done-button', {
+          defaultValue: 'Done',
+        })}
       </Button>
     </>
   );
